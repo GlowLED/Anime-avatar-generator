@@ -25,20 +25,25 @@ class ConvBlock(nn.module):
             nn.LeakyReLU(),
         )
     
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.layer(x)
 
 
 class UpSample(nn.Module):
-    def __init__(self, in_channels, out_channels):
+    def __init__(self, in_channels: int, out_channels: int) -> None:
         self.layer = nn.ConvTranspose2d(in_channels, out_channels, kernel_size=2, stride=2)
     
-    def forward(self, x):
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.layer(x)
 
 
 class UNet(nn.Module):
-    def __init__(self, features=32, dropout=0.2):
+    def __init__(self, features: int=32, dropout: float=0.2) -> None:
+
+        self.time_embed = nn.Sequential(
+            nn.Linear()
+        )
+        pass
         
         self.ConvBlock1 = ConvBlock(3, features)
         self.Pooling1 = nn.MaxPool2d(2, 2)
@@ -61,7 +66,7 @@ class UNet(nn.Module):
         self.FinalConv = nn.Conv2d(features, 3, 1, 1)
         
     
-    def forward(self, input):
+    def forward(self, input: torch.Tensor, timesteps: torch.Tensor) -> torch.Tensor:
 
         state1 = self.ConvBlock1(input)
         state2 = self.ConvBlock2(self.Pooling1(state1))
