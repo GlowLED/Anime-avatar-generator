@@ -2,9 +2,7 @@ import torch
 import math
 
 def timestep_embedding(timesteps, dim, max_period=10000):
-    '''
-    from: https://blog.csdn.net/m0_63977857/article/details/142148606
-    '''
+
     half = dim // 2
     freqs = torch.exp(
         -math.log(max_period) * torch.arange(start=0, end=half, dtype=torch.float32) / half
@@ -17,7 +15,7 @@ def timestep_embedding(timesteps, dim, max_period=10000):
     return embedding
 
 
-def add_noise(x_0: torch.Tensor, timesteps: torch.Tensor) -> tuple:
+def sample_noise(x_0: torch.Tensor, timesteps: torch.Tensor, alpha: float) -> tuple:
     noise = torch.randn_like(x_0)
     pass
     

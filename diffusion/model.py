@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import math
-from process import timestep_embedding
+from tools.process import timestep_embedding
 
 
 class TimeEmbedding(nn.Module):
