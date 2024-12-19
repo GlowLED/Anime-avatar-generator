@@ -2,12 +2,13 @@ from PIL import Image
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 import os
-
+import inspect
 
 class ImageSet(Dataset):
     def __init__(self, path: str, transform=lambda x: x) -> None:
         self.path = path
         self.image_path = os.listdir(path)
+        self.transfrom = transform
     
     def __getitem__(self, idx):
         image_name = self.image_path[idx]

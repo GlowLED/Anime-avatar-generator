@@ -10,6 +10,7 @@ class TimeEmbedding(nn.Module):
         self.dim = dim
         self.max_period = max_period
     
+    @torch.no_grad()
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         half_dim = self.dim // 2
         t_emb = timestep_embedding(x, dim=self.dim, max_period=self.max_period)
@@ -33,6 +34,7 @@ class SEBlock(nn.Module):
             nn.Linear(in_channels // reduction, in_channels, bias=False),
         )
         self.sigmoid = nn.Sigmoid()
+    
     
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         b, c, _, _ = x.shape
@@ -164,6 +166,7 @@ class UNet(nn.Module):
             x = layer(x, t_emb)
 
         x = self.middle_layer(x)
+        
 
         for layer in self.up_layers:
             x = layer(x, t_emb)

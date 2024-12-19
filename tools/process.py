@@ -1,6 +1,7 @@
 import torch
 import math
 
+@torch.no_grad()
 def timestep_embedding(timesteps, dim, max_period=10000):
 
     half = dim // 2
@@ -15,7 +16,12 @@ def timestep_embedding(timesteps, dim, max_period=10000):
     return embedding
 
 
-def sample_noise(x_0: torch.Tensor, timesteps: torch.Tensor, alpha: float) -> tuple:
+@torch.no_grad()
+def sample_x_t(x_0: torch.Tensor, timesteps: torch.Tensor, alpha: float) -> tuple:
     noise = torch.randn_like(x_0)
     pass
-    
+
+
+@torch.no_grad()
+def sample_noise(shape: tuple) -> torch.Tensor:
+    return torch.randn(shape)
